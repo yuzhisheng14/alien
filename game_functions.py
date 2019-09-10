@@ -43,9 +43,16 @@ def update_ship(ship):
     ship.moving()
 
 
-def update_bullets(bullets):
+def update_bullets(bullets, aliens):
     for bullet in bullets.copy():
         bullet.moving()
+        for alien in aliens.copy():
+            if bullet.rect.top <= alien.img_rect.y \
+                and bullet.rect.top >= (alien.img_rect.y - alien.img_rect.height) \
+                and bullet.rect.centerx >= alien.img_rect.x \
+                and bullet.rect.centerx <= (alien.img_rect.x + alien.img_rect.width):
+                aliens.remove(alien)
+                bullets.remove(bullet)
         if bullet.rect.bottom <= 0:
             bullets.remove(bullet)
 
